@@ -1,46 +1,111 @@
 
-package com.tvplay
-
-import android.app.Activity
-import android.os.Bundle
-import android.webkit.WebView
-import android.webkit.WebViewClient
-import android.webkit.WebChromeClient
-import android.webkit.WebSettings
-import android.view.View
-import android.widget.Toast
-
-class MainActivity : Activity() {
-
-    private lateinit var webView: WebView
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        webView = WebView(this)
-
-        webView.webViewClient = WebViewClient()
-        webView.webChromeClient = WebChromeClient()
-
-        webView.settings.apply {
-            javaScriptEnabled = true
-            domStorageEnabled = true
-            loadsImagesAutomatically = true
-            mixedContentMode = WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV Play</title>
+    <style>
+        * {
+            box-sizing: border-box;
         }
 
-        webView.setBackgroundColor(android.graphics.Color.BLACK)
-
-        setContentView(webView)
-
-        webView.loadUrl("file:///android_asset/index.html")
-    }
-
-    override fun onBackPressed() {
-        if (webView.canGoBack()) {
-            webView.goBack()
-        } else {
-            super.onBackPressed()
+        body {
+            margin: 0;
+            background: #080808;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
         }
+
+        header {
+            background: #111;
+            padding: 20px;
+            border-bottom: 2px solid #e50914;
+        }
+
+        h1 {
+            color: #e50914;
+            margin: 0;
+        }
+
+        main {
+            padding: 25px 15px;
+        }
+
+        .player {
+            background: #181818;
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        video {
+            width: 100%;
+            background: black;
+            border-radius: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin-top: 15px;
+            border-radius: 6px;
+            border: none;
+        }
+
+        button {
+            padding: 13px 25px;
+            margin-top: 12px;
+            background: #e50914;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>TV PLAY</h1>
+    <p>Seu entretenimento em um só lugar</p>
+</header>
+
+<main>
+    <div class="player">
+        <h2>Assistir TV</h2>
+
+        <video id="video" controls playsinline>
+        </video>
+
+        <input
+            type="url"
+            id="url"
+            placeholder="Cole aqui o link do vídeo"
+        >
+
+        <button onclick="playVideo()">Assistir</button>
+    </div>
+</main>
+
+<script>
+    function playVideo() {
+        const url = document.getElementById("url").value.trim();
+        const video = document.getElementById("video");
+
+        if (!url) {
+            alert("Digite um link de vídeo.");
+            return;
+        }
+
+        video.src = url;
+        video.play().catch(() => {
+            alert("Não foi possível reproduzir este vídeo.");
+        });
     }
-}
+</script>
+
+</body>
+</html>

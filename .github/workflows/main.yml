@@ -4,7 +4,8 @@ name: Gerar APK TV Play
 on:
   workflow_dispatch:
   push:
-    branches: [ "main", "master" ]
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -37,3 +38,4 @@ jobs:
           name: TV-Play-debug
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+          
